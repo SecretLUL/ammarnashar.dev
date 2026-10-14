@@ -1,0 +1,7 @@
+# The image only needs package.json, tsconfig.json, server.ts and public/ (see Dockerfile).
+# Keep local config and repository data out of the build context.
+.git
+.env
+.env.*
+node_modules
+*.log

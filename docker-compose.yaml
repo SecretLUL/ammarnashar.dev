@@ -1,0 +1,21 @@
+services:
+  portfolio:
+    build: .
+    image: ammarnashar-portfolio:latest
+    container_name: portfolio
+    restart: unless-stopped
+    ports:
+      # Host address and port come from .env (see .env.example); without it, only this machine can connect.
+      - "${PORTFOLIO_BIND_IP:-127.0.0.1}:${PORTFOLIO_PORT:-3000}:3000"
+    volumes:
+      - ./public:/app/public:ro
+    environment:
+      - PORT=3000
+      - NODE_ENV=production
+      - CONTACT_EMAIL=${CONTACT_EMAIL:-}
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:3000/api/health || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 5s

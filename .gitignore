@@ -1,0 +1,41 @@
+# Local configuration: real addresses, ports and the contact e-mail live here (see .env.example)
+.env
+.env.*
+!.env.example
+
+# Keys and certificates
+*.pem
+*.key
+*.crt
+*.cer
+*.csr
+*.der
+*.p12
+*.pfx
+*.jks
+*.keystore
+id_rsa*
+id_dsa*
+id_ecdsa*
+id_ed25519*
+
+# Logs
+*.log
+logs/
+
+# Dependencies and build output
+node_modules/
+dist/
+build/
+out/
+.cache/
+*.tsbuildinfo
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*~
+.idea/
+.vscode/

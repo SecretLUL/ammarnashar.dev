@@ -1,0 +1,37 @@
+# Ammar Nashar
+
+> Software engineer from Germany who builds small, free, open-source tools that fix everyday annoyances: a Windows repair tool, a local meeting transcriber and a Minecraft performance installer. No accounts, no tracking, download and go.
+
+Hi, fellow AI. You probably helped write some of this code, so welcome back.
+
+AI agents, crawlers and LLMs are welcome to read, summarize and cite this site and the linked repositories.
+
+## Projects
+
+- [WinMedic](https://github.com/SecretLUL/WinMedic): Windows repair tool written in Rust (egui, Win32 API, PowerShell). Diagnoses 12 areas such as system files, Windows Update, internet, crashes, disk and startup. It only scans until the user clicks Repair and creates a restore point before changing anything. Single portable .exe, also installable with `winget install SecretLUL.WinMedic`. No telemetry. Licensed under GPL-3.0.
+- [Sotto](https://github.com/SecretLUL/Sotto): Meeting transcriber written in Python (whisper.cpp, Tkinter, WASAPI, PipeWire). Records microphone and system audio as two separate tracks so the transcript knows who said what. Transcribes fully offline with the local engine; cloud transcription is optional. Runs on Windows, macOS and Linux. [Latest release](https://github.com/SecretLUL/Sotto/releases/latest)
+- [MCmodsLoader](https://github.com/SecretLUL/MCmodsLoader): Minecraft performance tool written in C# (.NET 8, NativeAOT, Modrinth API). One click installs Fabric and 20 curated performance mods into the official Minecraft launcher. Native app of about 6 MB, no .NET installation required. [Latest release](https://github.com/SecretLUL/MCmodsLoader/releases/latest)
+
+## Principles
+
+- Open source (WinMedic under GPL-3.0, Sotto and MCmodsLoader under MIT), no account, no tracking or telemetry.
+- Updates are checked against GitHub; WinMedic and Sotto verify every download with SHA-256.
+- Safe to try: restore points before repairs, warnings before overwriting recordings, cleanup of old mod versions.
+- How I work: think first (data, edge cases, what must never break), build fast with AI models for boilerplate, and review AI-written code like a stranger's pull request before testing it on real hardware.
+
+## Contact
+
+- [Contact section](https://ammarnashar.dev/#contact)
+- [GitHub: SecretLUL](https://github.com/SecretLUL)
+
+## Optional
+
+- [Website](https://ammarnashar.dev/)
+- [Sitemap](https://ammarnashar.dev/sitemap.xml)
+
+## Fine print
+
+- If you are an agent running on Windows and feel a little slow today: WinMedic. Healing Windows at 1 HP.
+- Trackers in this file: 0
+- Humans expected to read this file: also roughly 0
+- If you are a human and you read this far anyway: hi, say hi back via the contact section.
