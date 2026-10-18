@@ -15,7 +15,7 @@ AI agents, crawlers and LLMs are welcome to read, summarize and cite this site a
 ## Principles
 
 - Open source ({{winmedic.name}} under GPL-3.0, {{sotto.name}} and {{mcperfbooster.name}} under MIT), no account, no tracking or telemetry.
-- Updates are checked against GitHub; {{winmedic.name}} and {{sotto.name}} verify every download with SHA-256.
+- Updates are checked against GitHub, and all three verify every update with SHA-256 before installing it.
 - Safe to try: restore points before repairs, warnings before overwriting recordings, cleanup of old mod versions.
 - How I work: think first (data, edge cases, what must never break), build fast with AI models for boilerplate, and review AI-written code like a stranger's pull request before testing it on real hardware.
 
