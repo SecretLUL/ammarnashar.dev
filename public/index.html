@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Ammar Nashar · I build tools that fix annoying stuff</title>
-  <meta name="description" content="Hey, I'm Ammar, a software engineer from Germany. I build open-source tools: WinMedic fixes Windows, Sotto types up your meetings on your own PC, MCmodsLoader makes Minecraft run smooth." />
+  <meta name="description" content="Hey, I'm Ammar, a software engineer from Germany. I build open-source tools: {{winmedic.name}} fixes Windows, {{sotto.name}} types up your meetings on your own PC, {{mcperfbooster.name}} makes Minecraft run smooth." />
   <meta name="theme-color" content="#050806" />
   <meta name="color-scheme" content="dark" />
   <link rel="canonical" href="https://ammarnashar.dev/" />
@@ -14,23 +14,25 @@
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://ammarnashar.dev/" />
   <meta property="og:title" content="Ammar Nashar · I build tools that fix annoying stuff" />
-  <meta property="og:description" content="WinMedic fixes Windows, Sotto types up your meetings, MCmodsLoader makes Minecraft fly. All free and open source." />
-  <meta property="og:image" content="https://ammarnashar.dev/og.png" />
+  <meta property="og:description" content="{{winmedic.name}} fixes Windows, {{sotto.name}} types up your meetings, {{mcperfbooster.name}} makes Minecraft fly. All free and open source." />
+  <!-- og.png shows the project names as plain pixels: after a rename, update it and og:image:alt by hand
+       and raise ?v= (link previews keep old images for a long time) -->
+  <meta property="og:image" content="https://ammarnashar.dev/og.png?v=2" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Ammar Nashar: I build software that fixes annoying stuff. Projects: WinMedic, Sotto, MCmodsLoader." />
+  <meta property="og:image:alt" content="Ammar Nashar: I build software that fixes annoying stuff. Projects: WinMedic, Sotto, MCperfBooster." />
   <meta name="twitter:card" content="summary_large_image" />
 
   <link rel="preload" href="/assets/fonts/geist.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="/assets/fonts/instrument-serif-italic.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="/assets/css/main.css?v=fbd25f6724" />
+  <link rel="stylesheet" href="/assets/css/main.css?v=dc39ac5d47" />
 
   <!-- Everything is self-hosted: no CDN, no Google Fonts, no trackers. -->
   <script src="/assets/js/boot.js?v=2e32f4bd7e"></script>
   <script src="/assets/vendor/gsap.min.js?v=3.15.0" defer></script>
   <script src="/assets/vendor/ScrollTrigger.min.js?v=3.15.0" defer></script>
   <script src="/assets/vendor/lenis.min.js?v=1.3.26" defer></script>
-  <script src="/assets/js/main.js?v=f3e9b0db94" defer></script>
+  <script src="/assets/js/main.js?v=93303c8a9d" defer></script>
 
   <script type="application/ld+json">
   {
@@ -140,14 +142,14 @@
       <div class="aurora" aria-hidden="true"><span></span><span></span><span></span></div>
 
       <div class="hero-orbit" aria-hidden="true">
-        <a class="orb orb-1" href="#winmedic" tabindex="-1" data-orb="0" data-depth="0.6" data-cursor="WinMedic">
-          <span class="orb-inner"><img src="/assets/img/winmedic.svg" alt="WinMedic" width="56" height="56" /></span>
+        <a class="orb orb-1" href="#winmedic" tabindex="-1" data-orb="0" data-depth="0.6" data-cursor="{{winmedic.name}}">
+          <span class="orb-inner"><img src="/assets/img/winmedic.svg" alt="{{winmedic.name}}" width="56" height="56" /></span>
         </a>
-        <a class="orb orb-2" href="#sotto" tabindex="-1" data-orb="1" data-depth="1" data-cursor="Sotto">
-          <span class="orb-inner"><img src="/assets/img/sotto.svg" alt="Sotto" width="56" height="56" /></span>
+        <a class="orb orb-2" href="#sotto" tabindex="-1" data-orb="1" data-depth="1" data-cursor="{{sotto.name}}">
+          <span class="orb-inner"><img src="/assets/img/sotto.svg" alt="{{sotto.name}}" width="56" height="56" /></span>
         </a>
-        <a class="orb orb-3" href="#mcmodsloader" tabindex="-1" data-orb="2" data-depth="0.8" data-cursor="MCmodsLoader">
-          <span class="orb-inner"><img src="/assets/img/mcmodsloader.webp" alt="MCmodsLoader" width="56" height="56" /></span>
+        <a class="orb orb-3" href="#mcperfbooster" tabindex="-1" data-orb="2" data-depth="0.8" data-cursor="{{mcperfbooster.name}}">
+          <span class="orb-inner"><img src="/assets/img/mcperfbooster.webp" alt="{{mcperfbooster.name}}" width="56" height="56" /></span>
         </a>
       </div>
 
@@ -272,16 +274,16 @@
                 <div class="project-top">
                   <span class="project-index">01</span>
                   <span class="project-kind">Windows repair tool</span>
-                  <span class="release" data-release="WinMedic" title="Latest release">
-                    <span class="live-dot" aria-hidden="true"></span><span class="release-text">v0.7.0</span>
+                  <span class="release" data-release="winmedic" title="Latest release">
+                    <span class="live-dot" aria-hidden="true"></span><span class="release-text">v0.12.0</span>
                   </span>
                 </div>
                 <h3 class="project-name" id="winmedic-title">
-                  <img src="/assets/img/winmedic.svg" alt="" width="44" height="44" />WinMedic
+                  <img src="/assets/img/winmedic.svg" alt="" width="44" height="44" />{{winmedic.name}}
                 </h3>
                 <p class="project-tagline">Healing Windows at 1 HP.</p>
                 <p class="project-desc">
-                  Updates failing, no internet, PC crashing or just slow? WinMedic figures out why and fixes it,
+                  Updates failing, no internet, PC crashing or just slow? {{winmedic.name}} figures out why and fixes it,
                   so you don't have to reinstall Windows. It only looks around until you hit Repair, and it sets a
                   restore point first, so you can always go back.
                 </p>
@@ -294,7 +296,7 @@
                   <li>Rust</li><li>egui</li><li>Win32 API</li><li>PowerShell</li>
                 </ul>
                 <div class="project-actions">
-                  <a class="btn btn-primary" href="https://github.com/SecretLUL/WinMedic" target="_blank" rel="noopener noreferrer" data-magnetic>
+                  <a class="btn btn-primary" href="{{winmedic.url}}" target="_blank" rel="noopener noreferrer" data-magnetic>
                     <svg class="i"><use href="#i-github" /></svg> View on GitHub
                   </a>
                   <button class="cmd" type="button" data-copy="winget install SecretLUL.WinMedic" aria-label="Copy install command: winget install SecretLUL.WinMedic">
@@ -306,10 +308,10 @@
               </div>
 
               <div class="project-visual" data-tilt>
-                <a class="visual-link" href="https://github.com/SecretLUL/WinMedic" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true" data-cursor="View code"></a>
+                <a class="visual-link" href="{{winmedic.url}}" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true" data-cursor="View code"></a>
                 <div class="tilt-layer shot-wrap" data-depth="1">
                   <img class="shot" src="/assets/img/winmedic-screenshot.webp" width="960" height="670" loading="lazy" decoding="async"
-                       alt="WinMedic after a scan: 11 problems found, health 54 of 100, and a button to repair 5 of them." />
+                       alt="{{winmedic.name}} after a scan: 11 problems found, health 54 of 100, and a button to repair 5 of them." />
                   <span class="glare" aria-hidden="true"></span>
                 </div>
                 <div class="tilt-layer float-card scan-card" data-depth="2.2" aria-hidden="true">
@@ -337,16 +339,16 @@
                 <div class="project-top">
                   <span class="project-index">02</span>
                   <span class="project-kind">Meeting transcriber</span>
-                  <span class="release" data-release="Sotto" title="Latest release">
-                    <span class="live-dot" aria-hidden="true"></span><span class="release-text">v2.2.0</span>
+                  <span class="release" data-release="sotto" title="Latest release">
+                    <span class="live-dot" aria-hidden="true"></span><span class="release-text">v2.2.1</span>
                   </span>
                 </div>
                 <h3 class="project-name" id="sotto-title">
-                  <img src="/assets/img/sotto.svg" alt="" width="44" height="44" />Sotto
+                  <img src="/assets/img/sotto.svg" alt="" width="44" height="44" />{{sotto.name}}
                 </h3>
                 <p class="project-tagline">Your meetings, typed up. On your own PC.</p>
                 <p class="project-desc">
-                  Sotto records your mic and the system audio as two separate tracks, so the transcript knows exactly
+                  {{sotto.name}} records your mic and the system audio as two separate tracks, so the transcript knows exactly
                   who said what. With the local engine, nothing you say ever leaves your computer. Cloud
                   transcription is there too, if you want it.
                 </p>
@@ -359,21 +361,21 @@
                   <li>Python</li><li>whisper.cpp</li><li>Tkinter</li><li>WASAPI</li><li>PipeWire</li>
                 </ul>
                 <div class="project-actions">
-                  <a class="btn btn-primary" href="https://github.com/SecretLUL/Sotto" target="_blank" rel="noopener noreferrer" data-magnetic>
+                  <a class="btn btn-primary" href="{{sotto.url}}" target="_blank" rel="noopener noreferrer" data-magnetic>
                     <svg class="i"><use href="#i-github" /></svg> View on GitHub
                   </a>
-                  <a class="btn btn-ghost" href="https://github.com/SecretLUL/Sotto/releases/latest" target="_blank" rel="noopener noreferrer" data-magnetic>
+                  <a class="btn btn-ghost" href="{{sotto.url}}/releases/latest" target="_blank" rel="noopener noreferrer" data-magnetic>
                     <svg class="i"><use href="#i-download" /></svg> Download
                   </a>
                 </div>
               </div>
 
               <div class="project-visual" data-tilt>
-                <a class="visual-link" href="https://github.com/SecretLUL/Sotto" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true" data-cursor="View code"></a>
+                <a class="visual-link" href="{{sotto.url}}" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true" data-cursor="View code"></a>
                 <div class="tilt-layer app sotto-app" data-depth="1" aria-hidden="true">
                   <div class="app-bar">
                     <img src="/assets/img/sotto.svg" alt="" width="20" height="20" />
-                    <span>Sotto</span>
+                    <span>{{sotto.name}}</span>
                     <span class="rec"><i></i>REC <b class="rec-time">00:00</b></span>
                   </div>
                   <div class="tracks">
@@ -400,51 +402,51 @@
             </div>
           </article>
 
-          <!-- ---------- MCmodsLoader ---------- -->
-          <article class="project" id="mcmodsloader" aria-labelledby="mcmodsloader-title">
+          <!-- ---------- MCperfBooster ---------- -->
+          <article class="project" id="mcperfbooster" aria-labelledby="mcperfbooster-title">
             <div class="project-card">
               <div class="project-shade" aria-hidden="true"></div>
               <div class="project-info">
                 <div class="project-top">
                   <span class="project-index">03</span>
                   <span class="project-kind">Minecraft performance</span>
-                  <span class="release" data-release="MCmodsLoader" title="Latest release">
-                    <span class="live-dot" aria-hidden="true"></span><span class="release-text">v1.2.0</span>
+                  <span class="release" data-release="mcperfbooster" title="Latest release">
+                    <span class="live-dot" aria-hidden="true"></span><span class="release-text">v2.0.0</span>
                   </span>
                 </div>
-                <h3 class="project-name" id="mcmodsloader-title">
-                  <img src="/assets/img/mcmodsloader.webp" alt="" width="44" height="44" />MCmodsLoader
+                <h3 class="project-name" id="mcperfbooster-title">
+                  <img src="/assets/img/mcperfbooster.webp" alt="" width="44" height="44" />{{mcperfbooster.name}}
                 </h3>
                 <p class="project-tagline">Minecraft. Faster. Simpler.</p>
                 <p class="project-desc">
-                  Smooth Minecraft FPS for your friends, without the modding headache. One click sets up Fabric and
-                  20 hand-picked performance mods, right inside the normal Minecraft launcher they already use.
-                  No new launcher, no messing around in .minecraft folders.
+                  Smooth Minecraft FPS for your friends, without the modding headache. One click sets up Fabric,
+                  21 hand-picked mods and a faster Java tuned to their PC, right inside the normal Minecraft
+                  launcher they already use. No new launcher, no messing around in .minecraft folders.
                 </p>
                 <dl class="project-stats">
-                  <div><dt>curated mods</dt><dd data-count="20">20</dd></div>
-                  <div><dt>native app</dt><dd>~<span data-count="6">6</span> MB</dd></div>
+                  <div><dt>curated mods</dt><dd data-count="21">21</dd></div>
+                  <div><dt>native app</dt><dd>~<span data-count="7">7</span> MB</dd></div>
                   <div><dt>click</dt><dd data-count="1">1</dd></div>
                 </dl>
                 <ul class="tags">
-                  <li>C#</li><li>.NET 8</li><li>NativeAOT</li><li>Win32</li><li>Modrinth API</li>
+                  <li>C#</li><li>.NET 8</li><li>NativeAOT</li><li>Win32</li><li>Modrinth API</li><li>GraalVM</li>
                 </ul>
                 <div class="project-actions">
-                  <a class="btn btn-primary" href="https://github.com/SecretLUL/MCmodsLoader" target="_blank" rel="noopener noreferrer" data-magnetic>
+                  <a class="btn btn-primary" href="{{mcperfbooster.url}}" target="_blank" rel="noopener noreferrer" data-magnetic>
                     <svg class="i"><use href="#i-github" /></svg> View on GitHub
                   </a>
-                  <a class="btn btn-ghost" href="https://github.com/SecretLUL/MCmodsLoader/releases/latest" target="_blank" rel="noopener noreferrer" data-magnetic>
+                  <a class="btn btn-ghost" href="{{mcperfbooster.url}}/releases/latest" target="_blank" rel="noopener noreferrer" data-magnetic>
                     <svg class="i"><use href="#i-download" /></svg> Download
                   </a>
                 </div>
               </div>
 
               <div class="project-visual" data-tilt>
-                <a class="visual-link" href="https://github.com/SecretLUL/MCmodsLoader" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true" data-cursor="View code"></a>
+                <a class="visual-link" href="{{mcperfbooster.url}}" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true" data-cursor="View code"></a>
                 <div class="tilt-layer app mc-app" data-depth="1" aria-hidden="true">
                   <div class="app-bar">
-                    <img src="/assets/img/mcmodsloader.webp" alt="" width="20" height="20" />
-                    <span>MCmodsLoader</span>
+                    <img src="/assets/img/mcperfbooster.webp" alt="" width="20" height="20" />
+                    <span>{{mcperfbooster.name}}</span>
                   </div>
                   <div class="mc-row">
                     <span>Minecraft version</span>
@@ -457,14 +459,14 @@
                     <li>FerriteCore</li>
                     <li>Entity Culling</li>
                     <li>ImmediatelyFast</li>
-                    <li>+ 14 more</li>
+                    <li>+ 16 more</li>
                   </ul>
                   <div class="mc-progress"><i></i></div>
                   <div class="mc-btn"><span class="mc-btn-text">Inject Performance Mods</span></div>
                   <span class="glare" aria-hidden="true"></span>
                 </div>
                 <div class="tilt-layer mc-cube" data-depth="2.6" aria-hidden="true">
-                  <img src="/assets/img/mcmodsloader.webp" alt="MCmodsLoader logo" width="160" height="160" />
+                  <img src="/assets/img/mcperfbooster.webp" alt="{{mcperfbooster.name}} logo" width="160" height="160" />
                 </div>
               </div>
             </div>
@@ -484,12 +486,12 @@
         <div class="bento" data-reveal-group>
           <article class="tile tile-download">
             <div class="art-files" aria-hidden="true">
-              <div class="file file-1"><svg class="i"><use href="#i-file" /></svg>winmedic.exe</div>
-              <div class="file file-2"><svg class="i"><use href="#i-file" /></svg>Sotto.zip</div>
-              <div class="file file-3"><svg class="i"><use href="#i-file" /></svg>MCmodsLoader.exe</div>
+              <div class="file file-1"><svg class="i"><use href="#i-file" /></svg>{{winmedic.name}}.exe</div>
+              <div class="file file-2"><svg class="i"><use href="#i-file" /></svg>{{sotto.name}}.zip</div>
+              <div class="file file-3"><svg class="i"><use href="#i-file" /></svg>{{mcperfbooster.name}}.exe</div>
             </div>
             <h3>Just download it</h3>
-            <p>One file. No installer wizard, no account, no "sign up to continue". WinMedic is a single .exe (or one <code>winget</code> command), and MCmodsLoader doesn't even need .NET installed.</p>
+            <p>One file. No installer wizard, no account, no "sign up to continue". {{winmedic.name}} is a single .exe (or one <code>winget</code> command), and {{mcperfbooster.name}} doesn't even need .NET installed.</p>
           </article>
 
           <article class="tile tile-private">
@@ -497,11 +499,12 @@
             <ul class="net" aria-hidden="true">
               <li><span>updates</span><i></i><b>github.com</b></li>
               <li><span>mods</span><i></i><b>modrinth.com</b></li>
+              <li><span>Java</span><i></i><b>oracle.com</b></li>
               <li><span>speech models</span><i></i><b>huggingface.co</b></li>
               <li class="is-none"><span>tracking</span><i></i><b>nowhere</b></li>
             </ul>
             <h3>Your stuff stays yours</h3>
-            <p>No tracking, no telemetry. Sotto can transcribe completely offline, and WinMedic only goes online for updates, connection checks and clean system files during a repair.</p>
+            <p>No tracking, no telemetry. {{sotto.name}} can transcribe completely offline, and {{winmedic.name}} only goes online for updates, connection checks and clean system files during a repair.</p>
           </article>
 
           <article class="tile tile-safe">
@@ -512,20 +515,20 @@
               <li><i><svg class="i"><use href="#i-undo" /></svg></i>Undo anytime</li>
             </ol>
             <h3>Safe to try</h3>
-            <p>WinMedic sets a restore point before it touches anything. Sotto warns you before a recording gets overwritten. MCmodsLoader clears out old mod versions so nothing crashes.</p>
+            <p>{{winmedic.name}} sets a restore point before it touches anything. {{sotto.name}} warns you before a recording gets overwritten. {{mcperfbooster.name}} clears out old mod versions so nothing crashes.</p>
           </article>
 
           <article class="tile tile-update">
             <div class="tile-icon" aria-hidden="true"><svg class="i"><use href="#i-refresh" /></svg></div>
             <h3>Always up to date</h3>
-            <p>All three check GitHub for new versions and update in one click. WinMedic and Sotto check every download against its SHA-256 first.</p>
+            <p>All three check GitHub for new versions and update in one click. {{winmedic.name}} and {{sotto.name}} check every download against its SHA-256 first.</p>
             <div class="hash" aria-hidden="true"><span class="hash-label">sha256</span><span class="hash-value" data-scramble>9c41e07a2f5d…b83e</span><svg class="i"><use href="#i-check" /></svg></div>
           </article>
 
           <article class="tile tile-oss">
             <div class="tile-icon" aria-hidden="true"><svg class="i"><use href="#i-code" /></svg></div>
             <h3>Open source</h3>
-            <p>Everything's on GitHub: WinMedic under GPL-3.0, Sotto and MCmodsLoader under MIT. Read the code, fork it, break it, send a fix.</p>
+            <p>Everything's on GitHub: {{winmedic.name}} under GPL-3.0, {{sotto.name}} and {{mcperfbooster.name}} under MIT. Read the code, fork it, break it, send a fix.</p>
             <div class="contrib" aria-hidden="true"></div>
           </article>
         </div>
@@ -564,7 +567,7 @@
             <span class="step-num">03</span>
             <div>
               <h3>Trust nothing</h3>
-              <p>AI code gets reviewed like a stranger's pull request: race conditions, memory safety, compiler warnings. Then it has to survive real hardware. WinMedic's checks, for example, are tested against output from real Windows installs.</p>
+              <p>AI code gets reviewed like a stranger's pull request: race conditions, memory safety, compiler warnings. Then it has to survive real hardware. {{winmedic.name}}'s checks, for example, are tested against output from real Windows installs.</p>
             </div>
           </li>
           </ol>

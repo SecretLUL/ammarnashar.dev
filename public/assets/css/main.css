@@ -1191,7 +1191,7 @@ html.js:not(.reduced) .rot-item {
 #sotto {
   --glow: 45, 212, 191;
 }
-#mcmodsloader {
+#mcperfbooster {
   --glow: 52, 211, 153;
 }
 
@@ -1521,7 +1521,7 @@ html.js:not(.reduced) .rot-item {
   color: var(--text-3);
 }
 
-/* mock app windows (Sotto, MCmodsLoader) */
+/* mock app windows (Sotto, MCperfBooster) */
 .app {
   position: relative;
   width: 100%;
@@ -1676,7 +1676,7 @@ html.js:not(.reduced) .rot-item {
   color: var(--g-200);
 }
 
-/* MCmodsLoader */
+/* MCperfBooster */
 .mc-app {
   max-width: 430px;
 }

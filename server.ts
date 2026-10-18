@@ -4,18 +4,26 @@ import { stat } from "node:fs/promises";
 const PORT = Number(process.env.PORT) || 3000;
 const PUBLIC_DIR = join(import.meta.dir, "public");
 
-// Latest releases for the project cards. Fetched here and cached, so visitors never talk to GitHub.
+// Name, link, latest release and commit count of each project. Fetched here and cached, so visitors
+// never talk to GitHub. The repositories are looked up by ID, which stays the same when one is renamed
+// or moves to another account, so the pages always show the current name: it replaces {{<key>.name}}
+// and {{<key>.url}} while they are served (see fillPage). The key is fixed and never shown; the name
+// here is only used until GitHub has answered once after a start.
 const GITHUB_OWNER = "SecretLUL";
-const GITHUB_REPOS = ["WinMedic", "Sotto", "MCmodsLoader"];
+const GITHUB_REPOS = [
+  { key: "winmedic", id: 1334302961, name: "WinMedic" },
+  { key: "sotto", id: 1329749976, name: "Sotto" },
+  { key: "mcperfbooster", id: 1360339604, name: "MCperfBooster" },
+];
 const GITHUB_REFRESH_MS = 30 * 60 * 1000;
-const GITHUB_RETRY_MS = 10 * 60 * 1000;
+const GITHUB_RETRY_MS = 10 * 60 * 1000; // only when GitHub answered no request, see answers
 
 // The contact address is not in the repository: it comes from .env (see .env.example) and replaces
 // every {{CONTACT_EMAIL}} in the HTML pages while they are served. Cloudflare's e-mail obfuscation
 // then hides it in the delivered page, as with an address written into the HTML directly.
 const CONTACT_EMAIL = process.env.CONTACT_EMAIL?.trim() || "you@example.com";
 if (!process.env.CONTACT_EMAIL?.trim()) console.warn("[portfolio] CONTACT_EMAIL is not set, the page shows you@example.com");
-const CONTACT_EMAIL_HTML = CONTACT_EMAIL.replace(/[&<>"']/g, (c) => `&#${c.charCodeAt(0)};`);
+const CONTACT_EMAIL_HTML = escapeHtml(CONTACT_EMAIL);
 
 const MIME_TYPES: Record<string, string> = {
   ".html": "text/html; charset=utf-8",
@@ -60,18 +68,33 @@ const SECURITY_HEADERS = {
 };
 
 // ---------------------------------------------------------------------------
-// GitHub release cache
+// GitHub cache
 // ---------------------------------------------------------------------------
-type RepoInfo = { version: string | null; published: string | null; commits: number | null; url: string };
+type RepoInfo = { name: string; url: string; version: string | null; published: string | null; commits: number | null };
 type Cached = { etag: string; body: unknown; link: string | null };
 
-let projects: { updated: string | null; repos: Record<string, RepoInfo> } = { updated: null, repos: {} };
+// Account and repository names on GitHub only contain letters, digits, "-", "_" and "."
+const REPO_URL = /^https:\/\/github\.com\/[\w.-]+\/([\w.-]+)$/;
+
+let projects: { updated: string | null; repos: Record<string, RepoInfo> } = {
+  updated: null,
+  repos: Object.fromEntries(
+    GITHUB_REPOS.map((repo) => [
+      repo.key,
+      { name: repo.name, url: `https://github.com/${GITHUB_OWNER}/${repo.name}`, version: null, published: null, commits: null },
+    ])
+  ),
+};
 let lastAttempt = 0;
-let lastRefreshFailed = false;
+let lastRefreshUnanswered = false;
+let answers = 0; // answers from GitHub during the current refresh
 let inflight: Promise<void> | null = null;
 const etags = new Map<string, Cached>();
 
-// Conditional requests: a 304 does not count against GitHub's rate limit (60/h without a token).
+// Conditional requests: GitHub answers 304 without a body when nothing has changed. Without a token every
+// answer counts against the limit of 60 requests per hour and IP address, error answers and 304s included
+// (tested 10/2026), and other services share that address. So a refresh is only repeated sooner
+// (GITHUB_RETRY_MS) when GitHub did not answer a single request.
 async function github(path: string): Promise<Cached> {
   const cached = etags.get(path);
   const res = await fetch(`https://api.github.com${path}`, {
@@ -83,6 +106,7 @@ async function github(path: string): Promise<Cached> {
     },
     signal: AbortSignal.timeout(8000),
   });
+  answers++;
   if (res.status === 304 && cached) return cached;
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
   const entry: Cached = { etag: res.headers.get("etag") ?? "", body: await res.json(), link: res.headers.get("link") };
@@ -93,46 +117,50 @@ async function github(path: string): Promise<Cached> {
 async function refreshProjects(): Promise<void> {
   lastAttempt = Date.now();
   const repos: Record<string, RepoInfo> = {};
-  let failed = false;
+  answers = 0;
 
-  for (const name of GITHUB_REPOS) {
-    const previous = projects.repos[name];
-    const info: RepoInfo = {
-      version: previous?.version ?? null,
-      published: previous?.published ?? null,
-      commits: previous?.commits ?? null,
-      url: `https://github.com/${GITHUB_OWNER}/${name}`,
-    };
+  for (const repo of GITHUB_REPOS) {
+    // On errors the values from the last refresh stay
+    const info: RepoInfo = { ...projects.repos[repo.key] };
+    const base = `/repositories/${repo.id}`;
     try {
-      const release = (await github(`/repos/${GITHUB_OWNER}/${name}/releases/latest`)).body as {
-        tag_name?: string;
-        published_at?: string;
-      };
+      const current = (await github(base)).body as { name?: unknown; html_url?: unknown };
+      const url = typeof current.html_url === "string" ? current.html_url : "";
+      const name = url.match(REPO_URL)?.[1];
+      if (!name || name !== current.name) throw new Error("unexpected name or link");
+      if (name !== info.name) {
+        console.warn(`[portfolio] ${info.name} is now called ${name} on GitHub: the pages use the new name, og.png and GITHUB_REPOS don't`);
+      }
+      info.name = name;
+      info.url = url;
+    } catch (err) {
+      console.warn(`[portfolio] name of ${info.name}: ${(err as Error).message}`);
+    }
+    try {
+      const release = (await github(`${base}/releases/latest`)).body as { tag_name?: string; published_at?: string };
       info.version = release.tag_name ?? info.version;
       info.published = release.published_at ?? info.published;
     } catch (err) {
-      failed = true;
-      console.warn(`[portfolio] latest release of ${name}: ${(err as Error).message}`);
+      console.warn(`[portfolio] latest release of ${info.name}: ${(err as Error).message}`);
     }
     try {
       // per_page=1 makes the page number of rel="last" equal to the number of commits
-      const commits = await github(`/repos/${GITHUB_OWNER}/${name}/commits?per_page=1`);
+      const commits = await github(`${base}/commits?per_page=1`);
       const last = commits.link?.match(/[?&]page=(\d+)>;\s*rel="last"/);
       info.commits = last ? Number(last[1]) : Array.isArray(commits.body) ? commits.body.length : info.commits;
     } catch (err) {
-      failed = true;
-      console.warn(`[portfolio] commit count of ${name}: ${(err as Error).message}`);
+      console.warn(`[portfolio] commit count of ${info.name}: ${(err as Error).message}`);
     }
-    repos[name] = info;
+    repos[repo.key] = info;
   }
 
-  lastRefreshFailed = failed;
+  lastRefreshUnanswered = answers === 0;
   projects = { updated: new Date().toISOString(), repos };
 }
 
 function maybeRefresh(): void {
   if (inflight) return;
-  const wait = lastRefreshFailed ? GITHUB_RETRY_MS : GITHUB_REFRESH_MS;
+  const wait = lastRefreshUnanswered ? GITHUB_RETRY_MS : GITHUB_REFRESH_MS;
   if (lastAttempt && Date.now() - lastAttempt < wait) return;
   inflight = refreshProjects()
     .catch((err) => console.warn(`[portfolio] GitHub refresh failed: ${(err as Error).message}`))
@@ -144,9 +172,22 @@ function maybeRefresh(): void {
 // ---------------------------------------------------------------------------
 // Static files
 // ---------------------------------------------------------------------------
-// HTML is read on every request (it is small and sent with no-cache), so edits in public/ stay live at once.
-async function htmlPage(filePath: string): Promise<string> {
-  return (await Bun.file(filePath).text()).replaceAll("{{CONTACT_EMAIL}}", CONTACT_EMAIL_HTML);
+function escapeHtml(text: string): string {
+  return text.replace(/[&<>"']/g, (c) => `&#${c.charCodeAt(0)};`);
+}
+
+// HTML and text files are read on every request (they are small and sent with no-cache), so edits in
+// public/ and new names from GitHub are live at once. Both get the project names and links
+// ({{winmedic.name}}, {{winmedic.url}}, ...). Only HTML gets the contact address: Cloudflare hides
+// addresses in HTML, but not in plain text.
+async function fillPage(filePath: string, html: boolean): Promise<string> {
+  let text = await Bun.file(filePath).text();
+  if (html) text = text.replaceAll("{{CONTACT_EMAIL}}", CONTACT_EMAIL_HTML);
+  return text.replace(/\{\{([\w-]+)\.(name|url)\}\}/g, (placeholder, key: string, field: "name" | "url") => {
+    if (!Object.hasOwn(projects.repos, key)) return placeholder;
+    const value = projects.repos[key][field];
+    return html ? escapeHtml(value) : value;
+  });
 }
 
 async function serveFile(pathname: string, versioned: boolean): Promise<Response | null> {
@@ -159,13 +200,13 @@ async function serveFile(pathname: string, versioned: boolean): Promise<Response
     return null;
   }
   const ext = filePath.slice(filePath.lastIndexOf(".")).toLowerCase();
-  const cacheControl =
-    ext === ".html"
-      ? "no-cache"
-      : versioned
-        ? "public, max-age=31536000, immutable" // the ?v= value changes whenever the file does
-        : "public, max-age=86400";
-  return new Response(ext === ".html" ? await htmlPage(filePath) : Bun.file(filePath), {
+  const filled = ext === ".html" || ext === ".txt";
+  const cacheControl = filled
+    ? "no-cache"
+    : versioned
+      ? "public, max-age=31536000, immutable" // the ?v= value changes whenever the file does
+      : "public, max-age=86400";
+  return new Response(filled ? await fillPage(filePath, ext === ".html") : Bun.file(filePath), {
     headers: {
       ...SECURITY_HEADERS,
       "Content-Type": MIME_TYPES[ext] || "application/octet-stream",
@@ -176,7 +217,7 @@ async function serveFile(pathname: string, versioned: boolean): Promise<Response
 
 async function notFound(): Promise<Response> {
   const page = join(PUBLIC_DIR, "404.html");
-  return new Response((await Bun.file(page).exists()) ? await htmlPage(page) : "Not found", {
+  return new Response((await Bun.file(page).exists()) ? await fillPage(page, true) : "Not found", {
     status: 404,
     headers: { ...SECURITY_HEADERS, "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-cache" },
   });
@@ -204,8 +245,10 @@ const server = Bun.serve({
       );
     }
 
+    // The pages need the project names, /api/projects the rest
+    maybeRefresh();
+
     if (pathname === "/api/projects") {
-      maybeRefresh();
       // First request after a restart: wait briefly for the initial fetch
       if (!projects.updated && inflight) await Promise.race([inflight, Bun.sleep(4000)]);
       return Response.json(projects, { headers: { ...SECURITY_HEADERS, "Cache-Control": "public, max-age=600" } });

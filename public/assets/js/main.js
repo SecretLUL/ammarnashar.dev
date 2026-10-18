@@ -836,12 +836,12 @@
     });
   }
 
-  // ---------- MCmodsLoader: one click, twenty mods ----------
+  // ---------- MCperfBooster: one click, twenty-one mods ----------
   function setupMcDemo() {
     const app = $(".mc-app");
     if (!app) return;
     const rows = $$(".mc-mods li", app);
-    const more = rows.pop(); // "+ 14 more"
+    const more = rows.pop(); // "+ 16 more"
     const bar = $(".mc-progress i", app);
     const btn = $(".mc-btn", app);
     const label = $(".mc-btn-text", app);

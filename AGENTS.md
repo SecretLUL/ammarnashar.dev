@@ -5,17 +5,17 @@ Guide for coding agents working on this repository. Read it before you change an
 ## Project
 
 Personal website of Ammar Nashar, https://ammarnashar.dev: a single page about him and his open-source tools
-WinMedic (Windows repair tool, Rust), Sotto (meeting transcriber, Python) and MCmodsLoader (Minecraft
-performance installer, C#).
+WinMedic (Windows repair tool, Rust), Sotto (meeting transcriber, Python) and MCperfBooster (Minecraft
+performance tool, C#; called MCmodsLoader until October 2026).
 
 Stack:
 
 - Static HTML, CSS and vanilla JavaScript in `public/`. No framework, no bundler, no runtime dependencies.
 - Animations with GSAP, ScrollTrigger and Lenis, self-hosted in `public/assets/vendor/`.
 - `server.ts`: a small [Bun](https://bun.sh) server in TypeScript. It serves `public/` with security headers
-  (strict CSP) and cache headers, fills the contact address into the HTML and answers `/api/health` and
-  `/api/projects` (latest release and commit count per project, fetched from GitHub and cached on the server,
-  so visitors never talk to GitHub).
+  (strict CSP) and cache headers, fills the contact address and the project names and links into the pages
+  and answers `/api/health` and `/api/projects` (name, link, latest release and commit count per project,
+  fetched from GitHub and cached on the server, so visitors never talk to GitHub).
 - Docker image based on `oven/bun:alpine`, run with Docker Compose. In production a reverse proxy in front
   of the container handles HTTPS.
 
@@ -40,7 +40,7 @@ the files are on the server. Only `server.ts`, `Dockerfile` and `package.json` n
 ## Layout
 
 ```
-server.ts                Bun server: static files, headers, contact address, /api/health, /api/projects
+server.ts                Bun server: static files, headers, placeholders, /api/health, /api/projects
 public/                  everything the browser gets, served as is
   index.html, 404.html   the page and the not-found page
   llms.txt               summary for LLMs and agents, served as text/plain
@@ -61,7 +61,7 @@ Dockerfile, docker-compose.yaml, .env.example
 2. No trackers, analytics or third-party scripts, and nothing loaded from other servers (CDNs, Google Fonts,
    embeds). Everything is self-hosted; the CSP in `server.ts` only allows `'self'`.
 3. License information must be correct everywhere (page, `llms.txt`, docs): WinMedic is GPL-3.0, Sotto and
-   MCmodsLoader are MIT.
+   MCperfBooster are MIT.
 4. When the projects on the page change (added, removed, renamed, new facts), update `public/llms.txt` in the
    same change.
 5. Every image needs a meaningful alt text. `alt=""` is only for pure decoration or for an image that repeats
@@ -74,6 +74,19 @@ Dockerfile, docker-compose.yaml, .env.example
 
 ## Good to know
 
+- Project names and GitHub links are not written into `public/`. Use `{{<key>.name}}` and `{{<key>.url}}`
+  (keys `winmedic`, `sotto`, `mcperfbooster`) in HTML and `.txt` files. `server.ts` looks the repositories
+  up by ID (`GITHUB_REPOS`) and fills in the current name and link while serving, so a rename on GitHub
+  reaches the page within about 30 minutes without a change here. The keys, element IDs and file names stay
+  as they are after a rename, and so does the winget command (a package ID, not the repository name). By
+  hand after a rename: `og.png` (the names are pixels) together with `og:image:alt` and its `?v=`, the
+  start-up name in `GITHUB_REPOS`, `README.md` and these docs. The server log says when a name has changed.
+  A new project needs its ID in `GITHUB_REPOS`:
+  `curl -s https://api.github.com/repos/<owner>/<name> | grep -m1 '"id"'`.
+- `.txt` files get the names but never the contact address: Cloudflare only hides addresses in HTML.
+- Without a token GitHub allows 60 API requests per hour, and every answer counts, 304s and errors too. The
+  server asks three times per project at most every 30 minutes. Only when GitHub answered none of them
+  (network down, for example right after a reboot) it tries again after 10. Keep new requests rare.
 - Strict CSP: no inline `<script>`, no `<style>` blocks or `style=""` attributes, no external URLs. Browsers
   block violations silently. Setting styles from `main.js` through the DOM is fine.
 - The hero headline exists twice: an `.sr-only` sentence (the real text for screen readers, agents and search

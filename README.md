@@ -2,7 +2,7 @@
 
 Source code of my personal website, [ammarnashar.dev](https://ammarnashar.dev): one page about me and my
 open-source tools [WinMedic](https://github.com/SecretLUL/WinMedic), [Sotto](https://github.com/SecretLUL/Sotto)
-and [MCmodsLoader](https://github.com/SecretLUL/MCmodsLoader).
+and [MCperfBooster](https://github.com/SecretLUL/MCperfBooster).
 
 Plain HTML, CSS and JavaScript, served by a small [Bun](https://bun.sh) server. No framework, no build step,
 no trackers, everything self-hosted.
