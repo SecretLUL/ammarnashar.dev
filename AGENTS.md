@@ -11,7 +11,7 @@ performance tool, C#; called MCmodsLoader until October 2026).
 Stack:
 
 - Static HTML, CSS and vanilla JavaScript in `public/`. No framework, no bundler, no runtime dependencies.
-- Animations with GSAP, ScrollTrigger and Lenis, self-hosted in `public/assets/vendor/`.
+- No libraries. The only script is `public/assets/js/main.js` (copy buttons, clock, live release numbers).
 - `server.ts`: a small [Bun](https://bun.sh) server in TypeScript. It serves `public/` with security headers
   (strict CSP) and cache headers, fills the contact address and the project names and links into the pages
   and answers `/api/health` and `/api/projects` (name, link, latest release and commit count per project,
@@ -28,7 +28,7 @@ Stack:
 | Run locally | `bun run dev` (restarts when `server.ts` changes) or `bun run start`, then http://localhost:3000 |
 | Run in Docker | `docker compose up -d --build`, then http://127.0.0.1:3000 (address and port from `.env`) |
 | Build | `docker compose build` |
-| After editing `main.css`, `boot.js` or `main.js` | `./stamp-assets.sh` |
+| After editing `main.css` or `main.js` | `./stamp-assets.sh` |
 | Smoke test | `curl -fsS http://localhost:3000/api/health` |
 | Deploy | on the server, in the project directory: `docker compose up -d --build` |
 
@@ -45,9 +45,9 @@ public/                  everything the browser gets, served as is
   index.html, 404.html   the page and the not-found page
   llms.txt               summary for LLMs and agents, served as text/plain
   robots.txt, sitemap.xml
-  assets/css, assets/js  main.css, boot.js (runs before the first paint), main.js (interactions, motion)
-  assets/vendor          GSAP, ScrollTrigger, Lenis (third-party, see THIRD_PARTY_NOTICES.md)
-  assets/fonts, assets/img
+  assets/css, assets/js  main.css, main.js (copy buttons, clock, live release numbers)
+  assets/fonts           Big Shoulders Display, Hanken Grotesk, Geist Mono (third-party, see THIRD_PARTY_NOTICES.md)
+  assets/img
 stamp-assets.sh          cache-busting hashes for CSS and JS
 Dockerfile, docker-compose.yaml, .env.example
 ```
@@ -89,12 +89,18 @@ Dockerfile, docker-compose.yaml, .env.example
   (network down, for example right after a reboot) it tries again after 10. Keep new requests rare.
 - Strict CSP: no inline `<script>`, no `<style>` blocks or `style=""` attributes, no external URLs. Browsers
   block violations silently. Setting styles from `main.js` through the DOM is fine.
-- The hero headline exists twice: an `.sr-only` sentence (the real text for screen readers, agents and search
-  engines) and an animated copy that is `aria-hidden` and gets its words from `data-text` through CSS. Change
-  both together.
+- The look is a poster: flat green (`--green`) and black, huge condensed capitals (Big Shoulders Display),
+  hard edges, slightly crooked pictures with a solid shadow. Keep it that way: no gradients, glows, grain,
+  rounded cards, custom cursors, counters or scroll effects. The only animation is the headline rising once
+  on load. The design before November 2026 (dark with glows, GSAP animations) is the git tag `design-v1`.
+- Sotto and MCperfBooster have no screenshots yet. Their pictures are built in HTML from
+  real content: an example transcript (`.sheet-paper`) and the list of what gets installed (`.sheet-list`).
+  When a real screenshot exists, replace the `<figure class="sheet …">` with an `<img class="shot">` like
+  WinMedic's.
+- The capitals come from CSS (`text-transform`), the HTML keeps normal spelling. Tests that read text should
+  use `textContent`, not `innerText`.
 - On the live site Cloudflare obfuscates e-mail addresses in the HTML and decodes them in the browser. Don't
   split or animate the address with JS. The copy button reads it from the `mailto:` link (`contactEmail()` in
   `main.js`).
-- Hero dot grid (`setupCanvas()` in `main.js`): no CSS mask and no opacity transition on the canvas. Together
-  they made Firefox stutter for seconds after every page load, so the fade is computed per dot.
-- Without JavaScript or with "reduce motion" the page stays static and fully usable. Keep it that way.
+- Without JavaScript the page is complete: it only loses the copy buttons, the clock and the live numbers.
+  With "reduce motion" nothing moves. Keep it that way.

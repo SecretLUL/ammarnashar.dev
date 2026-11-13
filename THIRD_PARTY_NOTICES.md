@@ -6,16 +6,14 @@ come from other projects and keep their own licenses.
 
 | Component | Files | License |
 | --- | --- | --- |
-| [GSAP](https://gsap.com) 3.15.0 and ScrollTrigger 3.15.0, © GreenSock | `public/assets/vendor/gsap.min.js`, `public/assets/vendor/ScrollTrigger.min.js` | [GSAP Standard "No Charge" License](https://gsap.com/standard-license), not an open-source license. The notice is kept in the files. |
-| [Lenis](https://github.com/darkroomengineering/lenis) 1.3.26, © 2024 darkroom.engineering | `public/assets/vendor/lenis.min.js` | MIT, see below |
-| [Geist and Geist Mono](https://github.com/vercel/geist-font), © 2024 The Geist Project Authors | `public/assets/fonts/geist.woff2`, `public/assets/fonts/geist-mono.woff2` | SIL Open Font License 1.1, see below |
-| [Instrument Serif](https://github.com/Instrument/instrument-serif), © 2022 The Instrument Serif Project Authors | `public/assets/fonts/instrument-serif-italic.woff2` | SIL Open Font License 1.1, see below |
+| [Big Shoulders Display](https://github.com/xotypeco/big_shoulders), © 2019 The Big Shoulders Project Authors | `public/assets/fonts/big-shoulders-display.woff2` | SIL Open Font License 1.1, see below |
+| [Hanken Grotesk](https://github.com/marcologous/hanken-grotesk), © 2021 The Hanken Grotesk Project Authors | `public/assets/fonts/hanken-grotesk.woff2` | SIL Open Font License 1.1, see below |
+| [Geist Mono](https://github.com/vercel/geist-font), © 2024 The Geist Project Authors | `public/assets/fonts/geist-mono.woff2` | SIL Open Font License 1.1, see below |
 | [Simple Icons](https://simpleicons.org): Steam, X, PayPal and Discord icons | SVG symbols in `public/index.html` | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/). The logos are trademarks of their owners. |
 | GitHub mark from [Octicons](https://github.com/primer/octicons) | SVG symbol in `public/index.html` | MIT, see below. The logo is a trademark of GitHub, Inc. |
 
-## MIT License (Lenis, Octicons)
+## MIT License (Octicons)
 
-- Lenis: Copyright (c) 2024 darkroom.engineering
 - Octicons: Copyright (c) 2026 GitHub Inc.
 
 ```text
@@ -38,10 +36,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-## SIL Open Font License 1.1 (Geist, Geist Mono, Instrument Serif)
+## SIL Open Font License 1.1 (Big Shoulders Display, Hanken Grotesk, Geist Mono)
 
+- Copyright 2019 The Big Shoulders Project Authors (https://github.com/xotypeco/big_shoulders)
+- Copyright 2021 The Hanken Grotesk Project Authors (https://github.com/marcologous/hanken-grotesk)
 - Copyright 2024 The Geist Project Authors (https://github.com/vercel/geist-font)
-- Copyright 2022 The Instrument Serif Project Authors (https://github.com/Instrument/instrument-serif)
 
 ```text
 This Font Software is licensed under the SIL Open Font License, Version 1.1.

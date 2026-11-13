@@ -28,5 +28,5 @@ docker compose up -d --build   # http://127.0.0.1:3000
 - **Code** (HTML, CSS, JavaScript, TypeScript, scripts and config): [MIT](LICENSE).
 - **Content** (texts, images, logos, screenshots, the social preview image): © 2026 Ammar Nashar, all rights
   reserved. Learn from the code or build your own site with it, but please bring your own content.
-- **Third-party files** (GSAP, Lenis, fonts, brand icons) keep their own licenses, see
+- **Third-party files** (fonts, brand icons) keep their own licenses, see
   [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
